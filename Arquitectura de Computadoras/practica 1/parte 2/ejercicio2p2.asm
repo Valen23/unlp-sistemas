@@ -23,4 +23,4 @@ END
 
 ; a) la dirección donde se va a guardar el caracter ingresado
 ; b) setea AL en 1 y BX en 1500h, y con esa información setea el numero ingresado previamente
-; c) 
+; c) guarda el hexadecimal del valor ascii del caracter ingresado
