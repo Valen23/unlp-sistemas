@@ -1,3 +1,1 @@
-usar como guia, puede haber errores (no se van a corregir)
-
-los .exe son archivos que deja el compilador (VSCode), los .pas contienen el código
+TODO LO QUE ESTÁ ACÁ ESTÁ PERFECTAMENTE DISEÑADO, SI HAY ERRORES ES CULPA DE LA MÁQUINA.
