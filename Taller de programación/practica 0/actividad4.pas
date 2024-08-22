@@ -1,4 +1,4 @@
-program actividad4a;
+program actividad4;
 type
 	lista = ^nodo;
 	nodo = record
@@ -45,10 +45,23 @@ begin
 			l:=l^.nodoSig;
 		end;
 end;
+
+function buscarElemento(l:lista; n:integer):boolean;
+begin
+	buscarElemento:=false;
+	while(l <> nil) do begin
+		if(l^.dato=n)then begin
+			buscarElemento:=true;
+		end;
+		l:=l^.nodoSig;
+	end;
+end;
+
 var
 	l:lista;
 begin
 	randomize;
 	cargarLista(l);
 	imprimirLista(l);
+	writeln(buscarElemento(l, 140));
 end.
