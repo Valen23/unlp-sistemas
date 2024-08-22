@@ -3,7 +3,7 @@ procedure insertarOrdenado(var l:lista; num:integer);
 var
 	nue, act, ant:lista;
 begin
-	new(nue); nue^.dato:=num; act:=l;
+    new(nue); nue^.dato:=num; act:=l;
 	ant:=l;
 	
 	while(act<>nil)and(num>act^.dato)do begin
