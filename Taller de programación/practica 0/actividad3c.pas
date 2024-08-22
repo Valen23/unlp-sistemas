@@ -1,4 +1,4 @@
-program act3ejec;
+program actividad3c;
 type
 lista = ^nodo;
 nodo = record
