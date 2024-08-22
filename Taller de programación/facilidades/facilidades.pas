@@ -17,4 +17,16 @@ begin
 		ant^.nodoSig:=nue;
 	nue^.nodoSig:=act;
 end;
+
+function buscarElemento(l:lista; n:integer):boolean;
+begin
+	buscarElemento:=false;
+	while(l <> nil) do begin
+		if(l^.dato=n)then begin
+			buscarElemento:=true;
+		end;
+		l:=l^.nodoSig;
+	end;
+end;
+
 }
