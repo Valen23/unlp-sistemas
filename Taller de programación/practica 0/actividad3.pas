@@ -1,4 +1,4 @@
-program actividad3d;
+program actividad3;
 type 
 	lista = ^nodo;
 	nodo = record
