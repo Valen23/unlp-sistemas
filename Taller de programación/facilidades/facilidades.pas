@@ -1,26 +1,20 @@
 {
-procedure insertarOrdenado(var pi:lista; valor:integer);
+procedure insertarOrdenado(var l:lista; num:integer);
 var
-  actual, anterior, nuevo:lista;
+	nue, act, ant:lista;
 begin
-  new(nuevo); nuevo^.dato:=valor; nuevo^.sig:=nil;
-  if (pi = nil) then pi:=nuevo;
-  else
-    begin
-      actual:=pi; anterior:=pi;
-      while (actual <> nil) and (actual^.dato < nuevo^.dato) do
-        begin
-          anterior:=actual;
-          actual:=actual^.nodoSig;
-        end;
-    end;
-    if (actual = pi) then
-      begin
-        nuevo^.nodoSig:=pi; pi:=nuevo;
-      end;
-    else
-      begin
-        anterior^.nodoSig:=nuevo; nuevo^.nodoSig:=actual;
-      end;
+	new(nue); nue^.dato:=num; act:=l;
+	ant:=l;
+	
+	while(act<>nil)and(num>act^.dato)do begin
+		ant:=act;
+		act:=act^.nodoSig;
+	end;
+	
+	if(act=ant)then
+		l:=nue
+	else
+		ant^.nodoSig:=nue;
+	nue^.nodoSig:=act;
 end;
 }
