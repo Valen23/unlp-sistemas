@@ -29,4 +29,20 @@ begin
 	end;
 end;
 
+procedure agregarAtras(var l: lista;p: pelicula);
+var
+  nuevo, aux: lista;
+begin
+  new(nuevo);
+  nuevo^.dato := p;
+  nuevo^.sig := Nil;
+  if(l = Nil) then
+    l := nuevo
+  else begin
+    aux := l;
+    while(aux^.sig <> Nil) do
+      aux := aux^.sig;
+    aux^.sig := nuevo;
+  end;
+end;
 }
