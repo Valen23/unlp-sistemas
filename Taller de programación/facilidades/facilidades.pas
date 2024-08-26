@@ -45,4 +45,19 @@ begin
     aux^.sig := nuevo;
   end;
 end;
+
+procedure ordenarSeleccion(var v:vector);
+var
+	i, j, pos:integer; item:mejorpelicula;
+begin
+	for i:=1 to 8-1 do begin
+		pos:=i;
+		for j:=i+1 to 8 do
+			if (v[j].puntaje > v[pos].puntaje) then
+				pos:=j;
+			item:=v[pos];
+			v[pos]:=v[i];
+			v[i]:=item;
+	end;
+end;
 }
