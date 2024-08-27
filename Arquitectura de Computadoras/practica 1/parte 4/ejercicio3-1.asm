@@ -22,3 +22,6 @@ ORG 2000H
 CALL CONTAR_CAR
 HLT
 END
+
+; Recibe la dirección de comienzo de un string en BX, su longitud en AL, y el
+; carácter a contar en AH. Retorna en CL la cantidad de veces que aparece el carácter.
