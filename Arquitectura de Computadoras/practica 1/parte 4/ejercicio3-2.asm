@@ -15,3 +15,6 @@ ORG 2000H
 CALL MAYUS
 HLT
 END
+
+; Recibe un carácter en el registro AL y retorna en AH el valor 0FFh si es
+; mayúscula y 0 de lo contrario.
