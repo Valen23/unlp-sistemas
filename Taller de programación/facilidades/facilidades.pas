@@ -29,4 +29,35 @@ begin
 	end;
 end;
 
+procedure agregarAtras(var l: lista;p: pelicula);
+var
+  nuevo, aux: lista;
+begin
+  new(nuevo);
+  nuevo^.dato := p;
+  nuevo^.sig := Nil;
+  if(l = Nil) then
+    l := nuevo
+  else begin
+    aux := l;
+    while(aux^.sig <> Nil) do
+      aux := aux^.sig;
+    aux^.sig := nuevo;
+  end;
+end;
+
+procedure ordenarSeleccion(var v:vector);
+var
+	i, j, pos:integer; item:mejorpelicula;
+begin
+	for i:=1 to 8-1 do begin
+		pos:=i;
+		for j:=i+1 to 8 do
+			if (v[j].puntaje > v[pos].puntaje) then
+				pos:=j;
+			item:=v[pos];
+			v[pos]:=v[i];
+			v[i]:=item;
+	end;
+end;
 }
