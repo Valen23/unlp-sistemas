@@ -1,4 +1,4 @@
-program practica2ej4;
+program practica2ej4;//
 procedure binarioRecursivo(num:integer);
 begin
 	if (num > 0) then
