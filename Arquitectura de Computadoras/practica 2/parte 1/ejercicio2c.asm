@@ -8,8 +8,8 @@ OUT CA, AL
 MOV AL, 0
 OUT CB, AL
 LOOP:
-IN AL, PA
-OUT PB, AL
+IN AL, PA ; leemos 
+OUT PB, AL ; escribimos
 JMP LOOP
 INT 0
 END
