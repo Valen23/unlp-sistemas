@@ -65,3 +65,24 @@ begin
 			v[i]:=item;
 	end;
 end;
+
+{-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=}
+
+procedure busquedaDicotomica(v:vector; cod:integer; dimL:integer; var res:integer);
+var
+	i, mitad:integer;
+begin
+	mitad:=dimLog mod 2;
+	if(cod >= mitad)then begin
+		for i:=mitad to dimLog do begin
+			if(v[i].codi=cod)then
+				res:=i;
+		end;
+	end
+	else begin
+		for i:=1 to mitad-1 do begin
+			if(v[i].codi=cod)then
+				res:=i;
+		end;
+	end;
+end;
