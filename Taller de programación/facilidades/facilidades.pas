@@ -1,4 +1,3 @@
-{
 procedure insertarOrdenado(var l:lista; num:integer);
 var
 	nue, act, ant:lista;
@@ -18,6 +17,8 @@ begin
 	nue^.nodoSig:=act;
 end;
 
+{-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=}
+
 function buscarElemento(l:lista; n:integer):boolean;
 begin
 	buscarElemento:=false;
@@ -28,6 +29,8 @@ begin
 		l:=l^.nodoSig;
 	end;
 end;
+
+{-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=}
 
 procedure agregarAtras(var l: lista;p: pelicula);
 var
@@ -46,6 +49,8 @@ begin
   end;
 end;
 
+{-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=}
+
 procedure ordenarSeleccion(var v:vector);
 var
 	i, j, pos:integer; item:mejorpelicula;
@@ -60,4 +65,24 @@ begin
 			v[i]:=item;
 	end;
 end;
-}
+
+{-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=}
+
+procedure busquedaDicotomica(v:vector; cod:integer; dimL:integer; var res:integer);
+var
+	i, mitad:integer;
+begin
+	mitad:=dimLog mod 2;
+	if(cod >= mitad)then begin
+		for i:=mitad to dimLog do begin
+			if(v[i].codi=cod)then
+				res:=i;
+		end;
+	end
+	else begin
+		for i:=1 to mitad-1 do begin
+			if(v[i].codi=cod)then
+				res:=i;
+		end;
+	end;
+end;
