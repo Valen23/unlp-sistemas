@@ -1,4 +1,3 @@
-{
 procedure insertarOrdenado(var l:lista; num:integer);
 var
 	nue, act, ant:lista;
@@ -18,6 +17,8 @@ begin
 	nue^.nodoSig:=act;
 end;
 
+{-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=}
+
 function buscarElemento(l:lista; n:integer):boolean;
 begin
 	buscarElemento:=false;
@@ -28,6 +29,8 @@ begin
 		l:=l^.nodoSig;
 	end;
 end;
+
+{-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=}
 
 procedure agregarAtras(var l: lista;p: pelicula);
 var
@@ -46,6 +49,8 @@ begin
   end;
 end;
 
+{-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=}
+
 procedure ordenarSeleccion(var v:vector);
 var
 	i, j, pos:integer; item:mejorpelicula;
@@ -60,4 +65,3 @@ begin
 			v[i]:=item;
 	end;
 end;
-}
