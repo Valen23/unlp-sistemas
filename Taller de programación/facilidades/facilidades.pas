@@ -86,3 +86,21 @@ begin
 		end;
 	end;
 end;
+
+{-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=}
+
+procedure entreDosValores(a:arbol; min,max: integer; var cant_total: integer);
+	begin
+		if (a<>nil) then
+			begin
+				if(a^.dato.cod_prod<max) and (a^.dato.cod_prod>min) then
+					begin
+						cant_total:=cant_total+a^.dato.total_vendido;
+						entreDosValores(a^.hi,min,max,cant_total);
+						entreDosValores(a^.hd,min,max,cant_total);
+					end
+					else
+					if(a^.dato.cod_prod>=max) then entreDosValores(a^.hi,min,max,cant_total)
+						else if(a^.dato.cod_prod<=min) then entreDosValores(a^.hd,min,max,cant_total);
+			end;
+	end;
