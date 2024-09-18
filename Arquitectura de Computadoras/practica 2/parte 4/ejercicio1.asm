@@ -35,3 +35,10 @@ JZ COMIENZO
 JMP LOOP
 INT 0
 END
+
+; Escribir un programa que encienda una luz a la vez, de las ocho conectadas al puerto paralelo del
+; microprocesador a través de la PIO, en el siguiente orden de bits:
+; 0-1-2-3-4-5-6-7-6-5-4-3-2-1-0-1-2-3-4-5-6-7-6-5-4-3-2-1-0-1-..., es decir, 00000001, 00000010,
+; 00000100, etc. El programa nunca termina. Para ello, deberá utilizar las subrutinas ROTAR_IZQ y
+; ROTAR_DER_N, que le permitirán rotar el bit de estado de las luces y generar el juego
+; correspondiente.
