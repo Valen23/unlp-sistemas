@@ -1,0 +1,7 @@
+<#if licenseFirst??>
+${licenseFirst}
+</#if>
+${licensePrefix}https://github.com/Valen23
+<#if licenseLast??>
+${licenseLast}
+</#if>
