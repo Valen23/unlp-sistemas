@@ -18,7 +18,7 @@ public class ejercicio5tema1 {
             System.out.print("Cliente numero " + (i + 1) + ": ");
             for(int j=0; j<tipoCalif; j++){
                 calificaciones[i][j] = GeneradorAleatorio.generarDouble(10)+1;
-                promedio[j]+=calificaciones[i][j];
+                promedio[j] += calificaciones[i][j];
                 System.out.printf("(" + j + "): " + "%.2f ", calificaciones[i][j]);
             }
             System.out.println();
