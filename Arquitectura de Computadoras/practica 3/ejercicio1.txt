@@ -1,0 +1,20 @@
+24H -> INT0 -> Almacena el ID(15) de la interrupción asociada al dispositivo F10 para buscar en el vector la dirección de la subrutina
+que lo atiende.
+
+25H -> INT1 -> Almacena el ID(10) de la interrupción asociada al dispositivo Timer para buscar en el vector la dirección de la subrutina
+que lo atiende.
+
+26H -> INT2 -> Almacena el ID(25) de la interrupción asociada al dispositivo Handshake para buscar en el vector la dirección de la subrutina
+que lo atiende.
+
+En cada caso el ID es el numero que se le envía a la CPU para manejar la interrupción, la misma está ubicada en la dirección (ID x 4),
+en el primer caso por ejemplo, sería 4 x 15 = 60, y 60 es la dirección del vector donde se encuentra la subrutina que maneja la interrupción.
+Cabe destacar que el ID es un numero elegido por el programador.
+
+20H -> EOI -> Se envía el comando cuando se terminó de ejecutar la interrupción.
+
+21H -> IMR -> Inhibe las interrupciones seleccionadas para manejar el PIC, cada bit del registro IMR sirve para inhibir (1) la interrupción relacionada con el bit, ejemplo: si tenemos la cadena de bits 11111101 significa que la Interrupción INT1 están habilitada y el resto inhibidas.
+
+22H -> IRR -> Almacena las interrupciones pendientes. Cada bit está relacionado con una interrupción. Cuando la interrupción es atendida, el bit correspondiente se pone en 0.
+
+23H -> ISR -> Cuando una interrupción se está atendiendo, el bit correspondiente se pondrá en 1 y el resto en 0. Si no hay interrupciones atendiéndose todos los bits estarán en 0.

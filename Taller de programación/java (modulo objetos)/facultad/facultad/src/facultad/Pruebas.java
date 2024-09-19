@@ -2,7 +2,7 @@ package facultad;
 
 import PaqueteLectura.GeneradorAleatorio; // Importo el generador desde el paquete a mi programa.
 
-public class Pruebas {
+public class pruebas {
 
     public static void main(String[] args) {
         
