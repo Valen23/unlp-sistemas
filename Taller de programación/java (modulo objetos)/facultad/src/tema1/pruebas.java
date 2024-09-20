@@ -1,4 +1,4 @@
-package facultad;
+package tema1;
 
 import PaqueteLectura.GeneradorAleatorio; // Importo el generador desde el paquete a mi programa.
 

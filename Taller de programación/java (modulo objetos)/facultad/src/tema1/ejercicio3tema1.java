@@ -1,7 +1,7 @@
 /*
  * https://github.com/Valen23
  */
-package facultad;
+package tema1;
 
 import PaqueteLectura.GeneradorAleatorio;
 import PaqueteLectura.Lector;
