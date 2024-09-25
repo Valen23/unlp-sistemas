@@ -14,6 +14,7 @@ public class ejercicio4 {
         int j = 0;
         
         Persona[][] matriz = new Persona[cantidadDias][cantidadPersonas];
+        int[] vector = new int[cantidadPersonas];
         String nombreAux;
         int contadorAux = 0;
         int dia;
