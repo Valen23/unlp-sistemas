@@ -42,6 +42,10 @@ public class ejercicio4 {
             } else {
                 System.out.println("Dia invalido, el dia esta completo!");
             }
+
+            System.out.print("Ingrese su nombre: "); // Primero leo el nombre para verificar si crear un nuevo espacio
+            nombreAux = Lector.leerString();
+            
         }
         
     }
