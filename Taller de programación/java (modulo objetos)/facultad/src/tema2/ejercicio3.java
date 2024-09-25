@@ -12,25 +12,29 @@ public class ejercicio3 {
         
         int cantidadPersonas = 8;
         int cantidadDias = 5;
+        int i = 0;
+        int j = 0;
         
-        Persona[][] matriz = new Persona[cantidadPersonas][cantidadDias];
+        Persona[][] matriz = new Persona[cantidadDias][cantidadPersonas];
+        String nombreAux = GeneradorAleatorio.generarString(1);
         
-        for(int i=0; i<cantidadDias; i++){
-            System.out.print("Dia " + (i+1) + ": ");
-            for(int j=0; j<cantidadPersonas; j++){
-                
-                String aux = GeneradorAleatorio.generarString(3);
-                
-                if(aux != "ZZZ"){
-                    matriz[j][i] = new Persona();
-                    matriz[j][i].setNombre(aux);
-                    matriz[j][i].setEdad(GeneradorAleatorio.generarInt(100));
-                    matriz[j][i].setDNI(GeneradorAleatorio.generarInt(100));
-                    System.out.print(matriz[j][i].getNombre() + ", Turno " + (j+1) + ". ");
-                }
-                
+        while(!nombreAux.equals("Z")&&(i < cantidadDias)){ // Verificamos que el nombre sea distinto de "Z" y que no desborde el indice 'i'
+            
+            matriz[i][j] = new Persona(); // Inicializo la matriz
+            matriz[i][j].setNombre(nombreAux);
+            matriz[i][j].setEdad(GeneradorAleatorio.generarInt(100));
+            matriz[i][j].setDNI(GeneradorAleatorio.generarInt(100));
+            
+            System.out.print(matriz[i][j].getNombre() + " ");
+            
+            nombreAux = GeneradorAleatorio.generarString(1); // Genero nuevo string para la proxima iteracion
+            
+            j++;
+            if(j == cantidadPersonas){
+                j = 0;
+                i++;
+                System.out.println();
             }
-            System.out.println();
         }
         
     }
