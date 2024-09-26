@@ -48,6 +48,13 @@ public class ejercicio4 {
             
         }
         
+        for(i = 0; i<vector[i]; i++){
+            for(j = 0; j<cantidadDias; j++){
+                System.out.print(matriz[i][j].getNombre());
+            }
+            System.out.println();
+        }
+        
     }
     
 }
