@@ -1,1 +1,1 @@
-D:\GitHub\unlp\Arquitectura de Computadoras\winmips\5d.s
+D:\GitHub\unlp\Arquitectura de Computadoras\winmips\6a.s
