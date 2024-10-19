@@ -4,26 +4,35 @@ POS: .word 0
 MAX: .word 0
 
 .code
-DADD $t1, $zero, $zero              # inicializamos y usamos t1 como indice
-LW $t0, V($zero)                    # cargamos la direcc del vector
-LW $t9, POS($zero)                  # usamos t9 para cargar el resultado de POS
-DADDI $t4, $zero, 80                # indice * dimF, t4 almacena el fin del vector
-# usamos t3 como resultado de op. logicas
+dadd $t1, $zero, $zero          # inicializo el indice
+dadd $t2, $zero, zero           # inicializo el resultado de POS
+dadd $t3, $zero, $zero          # inicializo el resultado de MAX
+daddi $t4, $zero, 80            # inicializo la condicion de fin
+                                # usamos t5 para los resultados binarios
+j lazo
 
-loop:
-LW $t0, V($t1)                  # cargamos el vector indicando el indice
-SLT $t3, $zero, $t0             # 0 < $t0 ?
-BNEQ $t3, $zero, positivo       # compara si la flag es correcta
-J lazo
-
-positivo:
-daddi $t9, $t9, 1               # +1 a t9
+inc_indice:
+daddi $t1, $t1, 8
 
 lazo:
-DADDI $t1, $t1, 8               # añadimos 8 al indice
-BEQ $t1, $t4, fin               # verificamos si llegamos al final
-J loop                          # si no llegamos saltamos al loop nuevamente
+lw $t0, V($t1)                      # cargo el vector
+slt $t5, $t0, $zero                 # v[i] < zero ?, true = $t5, false = $t5
+beq $t5, $zero, no_es_negativo      # comparamos si se cumplio la condicion
+daddi $t2, $t2, 1                   # sumamos +1 al registro de POS
 
-fin:
-SW $t9, POS($zero)          # finalmente almacenamos los valores en memoria
-HALT
+no_es_negativo:
+slt $t5, $t3, $t0                   # $t3 < $t0?, true $t5, false = $t5
+bne $t5, $zero, no_es_menor         # si la pos actual no es menor que el almacenado salta a la etiqueta
+dadd $t3, $zero, $t0                # almaceno el valor en registro
+
+no_es_menor:
+dadd $t0, $t0, $t0                  # multiplico sin usar dmul
+sw $t0, V($t1)                      # almaceno en memoria
+
+bne $t1, $t4, inc_indice            # verifico si llegue al final
+
+# almaceno los valores
+sw $t2, POS($zero)
+sw $t3, MAX($zero)
+
+halt
