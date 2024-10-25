@@ -1,38 +1,64 @@
+{Bienvenidos al entorno CMRE.
+Lo siguiente es un código de ejemplo que implementa un
+proceso que recibe un número de avenida como parámetro,
+se posiciona en esa avenida y la recorre.}
+
 programa ejercicio4
 procesos
-  proceso recorrer
+  proceso tomarPapeles
   comenzar
-    repetir 2
-      repetir 25
-        repetir 99
-          mientras(HayFlorEnLaEsquina)
-            tomarFlor
-          mover
+    mientras(HayPapelEnLaEsquina)
+      tomarPapel
+  fin
+  proceso tomarFlores
+  comenzar
+    mientras(HayFlorEnLaEsquina)
+      tomarFlor
+  fin
+  proceso recorrer1y3(E hasta: numero)
+  comenzar
+    repetir 25
+      repetir 99
+        tomarFlores
+        mover
+      si(PosAv < hasta)
         Pos(PosAv+1, 1)
-      Pos(PosAv+25, 1)
+  fin
+  proceso recorrer2y4(E hasta: numero)
+  comenzar
+    repetir 25
+      repetir 99
+        tomarPapeles
+        mover
+      si(PosAv < hasta)
+        Pos(PosAv+1, 1)
   fin
 areas
   area1: AreaP (1,1,25,100)
-  area2: AreaP (26,1,50,100)
   area3: AreaP (51,1,75,100)
+  area2: AreaP (26,1,50,100)
   area4: AreaP (76,1,100,100)
 robots
   robot robot1
   comenzar
-    recorrer
+    recorrer1y3(25)
+    Pos(51, 1)
+    recorrer1y3(75)
   fin
   robot robot2
   comenzar
-    recorrer
+    recorrer2y4(50)
+    Pos(76, 1)
+    recorrer2y4(100)
   fin
 variables
-  robotito1: robot1
-  robotito2: robot2
+  r1: robot1
+  r2: robot2
 comenzar
-  AsignarArea(robotito1, area1)
-  AsignarArea(robotito1, area3)
-  AsignarArea(robotito2, area2)
-  AsignarArea(robotito2, area4)
-  Iniciar(robotito1, 1,1)
-  Iniciar(robotito2, 26,1)
+  AsignarArea(r1, area1)
+  AsignarArea(r1, area3)
+  AsignarArea(r2, area2)
+  AsignarArea(r2, area4)
+  Iniciar(r1, 1,1)
+  Iniciar(r2, 26,1)
 fin
