@@ -1,0 +1,77 @@
+{Bienvenidos al entorno CMRE.
+Lo siguiente es un código de ejemplo que implementa un
+proceso que recibe un número de avenida como parámetro,
+se posiciona en esa avenida y la recorre.}
+
+programa ejemplo
+procesos
+  proceso verificar(ES f: numero; ES p: numero; ES escalones: numero)
+  comenzar
+    si(f > p)
+      escalones := escalones + 1
+    f := 0
+    p := 0
+  fin
+  proceso tomarItems(ES f: numero; ES p: numero)
+  comenzar
+    mientras(HayFlorEnLaEsquina)
+      tomarFlor
+      f := f + 1
+    mientras(HayPapelEnLaEsquina)
+      tomarPapel
+      p := p + 1
+  fin
+  proceso izquierda
+  comenzar
+    repetir 3
+      derecha
+  fin
+  proceso escalera(E cantEscalones: numero; ES flores: numero; ES papeles: numero; ES escalones: numero)
+  variables
+    x: numero
+  comenzar
+    repetir cantEscalones
+      Random(x, 1, 5)
+      repetir x
+        tomarItems(flores, papeles)
+        mover
+      derecha
+      tomarItems(flores, papeles)
+      mover
+      verificar(flores, papeles, escalones)
+      izquierda
+  fin
+areas
+  ciudad: AreaC (1,1,100,100)
+robots
+  robot peon
+  variables
+    f, p, e: numero
+  comenzar
+    escalera(4, f, p, e)
+    EnviarMensaje(e, r4)
+  fin
+  robot jefe
+  variables
+    total, cantidad: numero
+  comenzar
+    repetir 3
+      RecibirMensaje(cantidad, *)
+      total := total + cantidad
+    Informar(total)
+  fin
+variables
+  r1: peon
+  r2: peon
+  r3: peon
+  r4: jefe
+comenzar
+  AsignarArea(r1, ciudad)
+  AsignarArea(r2, ciudad)
+  AsignarArea(r3, ciudad)
+  AsignarArea(r4, ciudad)
+  Iniciar(r1, 2,1)
+  Iniciar(r2, 7,1)
+  Iniciar(r3, 12,1)
+  Iniciar(r4, 1,1)
+fin

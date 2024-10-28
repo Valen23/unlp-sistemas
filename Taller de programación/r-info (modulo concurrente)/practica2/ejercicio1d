@@ -1,0 +1,88 @@
+programa ejercicio1
+procesos
+  proceso verificarMaximo(E flores: numero; E id: numero; ES floresMax: numero; ES idMax: numero)
+  comenzar
+    si(flores > floresMax)
+      floresMax:=flores
+      idMax:=id
+  fin
+  proceso tomarFlores(ES flores: numero)
+  comenzar
+    mientras(HayFlorEnLaEsquina)
+      tomarFlor
+      flores := flores + 1
+  fin
+  proceso recorrer(E cantidad: numero; ES flores: numero)
+  comenzar
+    repetir cantidad
+      tomarFlores(flores)
+      mover
+  fin
+  proceso asignarID
+  comenzar
+    EnviarMensaje(1, r1)
+    EnviarMensaje(2, r2)
+    EnviarMensaje(3, r3)
+    EnviarMensaje(4, r4)
+    EnviarMensaje(5, r5)
+    EnviarMensaje(6, r6)
+  fin
+areas
+  ciudad: AreaPC (1,1,6,60)
+robots
+  robot recolector
+  variables
+    misFlores, id: numero
+  comenzar
+    RecibirMensaje(id, r7)
+    recorrer(9, misFlores)
+    EnviarMensaje(id, r7)
+    EnviarMensaje(misFlores, r7)
+  fin
+  robot juez
+  variables
+    f, fMax, id, idMax: numero
+  comenzar
+    fMax := 0
+    asignarID
+    repetir 6
+      RecibirMensaje(id, *)
+      si(id = 1)
+        RecibirMensaje(f, r1)
+      si(id = 2)
+        RecibirMensaje(f, r2)
+      si(id = 3)
+        RecibirMensaje(f, r3)
+      si(id = 4)
+        RecibirMensaje(f, r4)
+      si(id = 5)
+        RecibirMensaje(f, r5)
+      si(id = 6)
+        RecibirMensaje(f, r6)
+      verificarMaximo(f, id, fMax, idMax)
+    Informar(idMax, fMax)
+  fin
+variables
+  r1: recolector
+  r2: recolector
+  r3: recolector
+  r4: recolector
+  r5: recolector
+  r6: recolector
+  r7: juez
+comenzar
+  AsignarArea(r1, ciudad)
+  AsignarArea(r2, ciudad)
+  AsignarArea(r3, ciudad)
+  AsignarArea(r4, ciudad)
+  AsignarArea(r5, ciudad)
+  AsignarArea(r6, ciudad)
+  AsignarArea(r7, ciudad)
+  Iniciar(r1, 1,1)
+  Iniciar(r2, 2,11)
+  Iniciar(r3, 3,21)
+  Iniciar(r4, 4,31)
+  Iniciar(r5, 5,41)
+  Iniciar(r6, 6,51)
+  Iniciar(r7, 2,1)
+fin

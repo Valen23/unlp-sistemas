@@ -1,0 +1,47 @@
+programa ejercicio1
+procesos
+  proceso tomarFlores(ES flores: numero)
+  comenzar
+    mientras(HayFlorEnLaEsquina)
+      tomarFlor
+      flores := flores + 1
+  fin
+  proceso recorrer(E cantidad: numero; ES flores: numero)
+  comenzar
+    repetir cantidad
+      tomarFlores(flores)
+      mover
+  fin
+areas
+  ciudad: AreaPC (1,1,2,20)
+robots
+  robot recolector
+  variables
+    misFlores: numero
+  comenzar
+    recorrer(9, misFlores)
+    EnviarMensaje(misFlores, r3)
+  fin
+  robot juez
+  variables
+    flores1, flores2: numero
+  comenzar
+    RecibirMensaje(flores1, *)
+    RecibirMensaje(flores2, *)
+    si(flores1 > flores2)
+      Informar(flores1-flores2)
+    sino
+      Informar(flores2-flores1)
+  fin
+variables
+  r1: recolector
+  r2: recolector
+  r3: juez
+comenzar
+  AsignarArea(r1, ciudad)
+  AsignarArea(r2, ciudad)
+  AsignarArea(r3, ciudad)
+  Iniciar(r1, 1,1)
+  Iniciar(r2, 2,11)
+  Iniciar(r3, 2,1)
+fin
