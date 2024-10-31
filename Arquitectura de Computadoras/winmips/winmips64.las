@@ -1,1 +1,1 @@
-D:\GitHub\unlp\Arquitectura de Computadoras\winmips\parte2-5c.s
+C:\Users\valen\Downloads\ejercicio2.s

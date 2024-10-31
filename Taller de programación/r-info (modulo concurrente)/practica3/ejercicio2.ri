@@ -1,0 +1,131 @@
+programa ejercicio2
+procesos
+  proceso asignarID
+  comenzar
+    EnviarMensaje(1, robotIzq)
+    EnviarMensaje(2, robotDer)
+  fin
+  proceso izquierda
+  comenzar
+    repetir 3
+      derecha
+  fin
+  proceso limpiarPapeles
+  comenzar
+    mientras(HayPapelEnLaEsquina)
+      tomarPapel
+  fin
+  proceso limpiarFlores
+  comenzar
+    mientras(HayFlorEnLaEsquina)
+      tomarFlor
+  fin
+  proceso limpiar(E cual: boolean)
+  comenzar
+    si(cual)
+      limpiarFlores
+    sino
+      limpiarPapeles
+  fin
+  proceso recorrer(E pasos: numero; E cual: boolean)
+  comenzar
+    repetir pasos
+      limpiar(cual)
+      mover
+  fin
+areas
+  ciudad: AreaPC (1,1,100,100)
+robots
+  robot rI
+  variables
+    x, id: numero
+  comenzar
+    RecibirMensaje(id, jefe)
+    x := 5
+    repetir 4
+      recorrer(x, V)
+      derecha
+      recorrer(x, V)
+      izquierda
+      x := x - 1
+    limpiarFlores
+    mover
+    derecha
+    BloquearEsquina(16, 16)
+    limpiarFlores
+    mover
+    repetir 2
+      izquierda
+    LiberarEsquina(16, 16)
+    limpiarFlores
+    mover
+    derecha
+    limpiarFlores
+    mover
+    izquierda
+    x := 2
+    repetir 4
+      recorrer(x, V)
+      derecha
+      recorrer(x, V)
+      izquierda
+      x := x + 1
+    EnviarMensaje(id, jefe)
+  fin
+  robot rD
+  variables
+    x, id: numero
+  comenzar
+    RecibirMensaje(id, jefe)
+    x := 5
+    repetir 4
+      recorrer(x, F)
+      izquierda
+      recorrer(x, F)
+      derecha
+      x := x - 1
+    limpiarPapeles
+    mover
+    izquierda
+    BloquearEsquina(16, 16)
+    limpiarPapeles
+    mover
+    LiberarEsquina(16, 16)
+    repetir 2
+      derecha
+    limpiarPapeles
+    mover
+    izquierda
+    limpiarPapeles
+    mover
+    derecha
+    x := 2
+    repetir 4
+      recorrer(x, F)
+      izquierda
+      recorrer(x, F)
+      derecha
+      x := x + 1
+    EnviarMensaje(id, jefe)
+  fin
+  robot rJ
+  variables
+    idGanador: numero
+  comenzar
+    asignarID
+    RecibirMensaje(idGanador, *)
+    Informar("El ID del ganador es ", idGanador)
+    RecibirMensaje(idGanador, *)
+  fin
+variables
+  robotIzq: rI
+  robotDer: rD
+  jefe: rJ
+comenzar
+  AsignarArea(jefe, ciudad)
+  AsignarArea(robotIzq, ciudad)
+  AsignarArea(robotDer, ciudad)
+  Iniciar(robotIzq, 1,1)
+  Iniciar(robotDer, 31,1)
+  Iniciar(jefe, 15,1)
+fin
