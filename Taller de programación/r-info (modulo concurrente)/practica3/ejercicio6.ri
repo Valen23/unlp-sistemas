@@ -1,0 +1,122 @@
+programa ejercicio6
+procesos
+  proceso recolectar(E papeles: boolean; E flores: boolean)
+  comenzar
+    si(flores)&(~papeles)
+      si(HayFlorEnLaEsquina)
+        mientras(HayFlorEnLaEsquina)
+          tomarFlor
+    si(~flores)&(papeles)
+      si(HayPapelEnLaEsquina)
+        mientras(HayPapelEnLaEsquina)
+          tomarPapel
+    si((flores)&(papeles))
+      si(HayPapelEnLaEsquina)
+        mientras(HayPapelEnLaEsquina)
+          tomarPapel
+      si(HayFlorEnLaEsquina)
+        mientras(HayFlorEnLaEsquina)
+          tomarFlor
+  fin
+  proceso perimetro(E longitud: numero; E papeles: boolean; E flores: boolean)
+  comenzar
+    repetir 4
+      repetir longitud
+        recolectar(papeles, flores)
+        mover
+      derecha
+  fin
+areas
+  calle1: AreaPC (1,20,100,20)
+  calle2: AreaPC (1,21,100,21)
+  calle3: AreaPC (1,22,100,22)
+  area6: AreaP (2,2,8,8)
+  area10: AreaP (10,2,20,12)
+  area7: AreaP (22,2,29,9)
+  puestoJefe: AreaP(1,1,1,1)
+robots
+  robot fiscalizador
+  variables
+    id, calle: numero
+  comenzar
+    EnviarMensaje(1, r1)
+    EnviarMensaje(2, r2)
+    EnviarMensaje(3, r3)
+    calle := 20
+    repetir 3
+      RecibirMensaje(id, *)
+      si(id = 1)
+        EnviarMensaje(calle, r1)
+      si(id = 2)
+        EnviarMensaje(calle, r2)
+      si(id = 3)
+        EnviarMensaje(calle, r3)
+      calle := calle + 1
+  fin
+  robot recolector1
+  variables
+    id, calle: numero
+  comenzar
+    RecibirMensaje(id, rJ)
+    perimetro(6, F, V)
+    EnviarMensaje(id, rJ)
+    RecibirMensaje(calle, rJ)
+    Pos(1, calle)
+    derecha
+    mientras(HayFlorEnLaBolsa)&(PosAv < 100)
+      depositarFlor
+      mover
+  fin
+  robot recolector2
+  variables
+    id, calle: numero
+  comenzar
+    RecibirMensaje(id, rJ)
+    perimetro(10, V, V)
+    EnviarMensaje(id, rJ)
+    RecibirMensaje(calle, rJ)
+    Pos(1, calle)
+    derecha
+    mientras(HayPapelEnLaBolsa)&(HayFlorEnLaBolsa)&(PosAv < 100)
+      depositarFlor
+      depositarPapel
+      mover
+  fin
+  robot recolector3
+  variables
+    id, calle: numero
+  comenzar
+    RecibirMensaje(id, rJ)
+    perimetro(7, V, F)
+    EnviarMensaje(id, rJ)
+    RecibirMensaje(calle, rJ)
+    Pos(1, calle)
+    derecha
+    mientras(HayPapelEnLaBolsa)&(PosAv < 100)
+      depositarPapel
+      mover
+  fin
+variables
+  rJ: fiscalizador
+  r1: recolector1
+  r2: recolector2
+  r3: recolector3
+comenzar
+  AsignarArea(r1, calle1)
+  AsignarArea(r2, calle1)
+  AsignarArea(r3, calle1)
+  AsignarArea(r1, calle2)
+  AsignarArea(r2, calle2)
+  AsignarArea(r3, calle2)
+  AsignarArea(r1, calle3)
+  AsignarArea(r2, calle3)
+  AsignarArea(r3, calle3)
+  AsignarArea(r1, area6)
+  AsignarArea(r2, area10)
+  AsignarArea(r3, area7)
+  AsignarArea(rJ, puestoJefe)
+  Iniciar(r1, 2,2)
+  Iniciar(r2, 10,2)
+  Iniciar(r3, 22,2)
+  Iniciar(rJ, 1,1)
+fin

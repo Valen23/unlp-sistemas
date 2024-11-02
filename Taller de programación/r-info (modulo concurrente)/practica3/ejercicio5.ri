@@ -1,0 +1,67 @@
+programa ejercicio5
+areas
+  pista1: AreaP (4,1,4,100)
+  pista2: AreaP (6,1,6,100)
+  pista3: AreaP (8,1,8,100)
+  pista4: AreaP (10,1,10,100)
+  puestoJefe: AreaP(1,1,1,1)
+  areaFuente: AreaPC(11,11,11,11)
+robots
+  robot corredor
+  variables
+    hayPapel: boolean
+    avenida, calle, id: numero
+  comenzar
+    RecibirMensaje(id, rJ)
+    hayPapel := V
+    mientras(hayPapel)
+      avenida := PosAv
+      calle := PosCa
+      BloquearEsquina(11,11)
+      Pos(11,11)
+      si(HayPapelEnLaEsquina)
+        tomarPapel
+        Pos(avenida, calle)
+        LiberarEsquina(11,11)
+        depositarPapel
+        mover
+      sino
+        hayPapel := F
+        Pos(avenida, calle)
+        LiberarEsquina(11,11)
+    EnviarMensaje(id, rJ)
+  fin
+  robot coordinador
+  variables
+    ganador: numero
+  comenzar
+    EnviarMensaje(1, rC1)
+    EnviarMensaje(2, rC2)
+    EnviarMensaje(3, rC3)
+    EnviarMensaje(4, rC4)
+    repetir 4
+      RecibirMensaje(ganador, *)
+    Informar("El bot que llego mas lejos fue", ganador)
+  fin
+variables
+  rC1: corredor
+  rC2: corredor
+  rC3: corredor
+  rC4: corredor
+  rJ: coordinador
+comenzar
+  AsignarArea(rC1, areaFuente)
+  AsignarArea(rC2, areaFuente)
+  AsignarArea(rC3, areaFuente)
+  AsignarArea(rC4, areaFuente)
+  AsignarArea(rC1, pista1)
+  AsignarArea(rC2, pista2)
+  AsignarArea(rC3, pista3)
+  AsignarArea(rC4, pista4)
+  AsignarArea(rJ, puestoJefe)
+  Iniciar(rC1, 4,1)
+  Iniciar(rC2, 6,1)
+  Iniciar(rC3, 8,1)
+  Iniciar(rC4, 10,1)
+  Iniciar(rJ, 1,1)
+fin

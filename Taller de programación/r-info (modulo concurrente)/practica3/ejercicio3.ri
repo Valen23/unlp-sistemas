@@ -1,0 +1,88 @@
+programa eje3
+procesos
+  proceso asignarID
+  variables
+    id: numero
+  comenzar
+    EnviarMensaje(1, rRecolector1)
+    EnviarMensaje(2, rRecolector2)
+    EnviarMensaje(3, rRecolector3)
+    EnviarMensaje(4, rRecolector4)
+  fin
+areas
+  puestoJefe: AreaP (1,1,1,1)
+  area: AreaPC (2,2,10,10)
+  areaRecolector1: AreaP(2,1,2,1)
+  areaRecolector2: AreaP(3,1,3,1)
+  areaRecolector3: AreaP(4,1,4,1)
+  areaRecolector4: AreaP(5,1,5,1)
+robots
+  robot recolector
+  variables
+    avRandom, caRandom, avIni, caIni, id, flores: numero
+    hayFlor: boolean
+  comenzar
+    RecibirMensaje(id, rJefe)
+    hayFlor := V
+    avIni := PosAv
+    caIni := PosCa
+    RecibirMensaje(avRandom, rJefe)
+    RecibirMensaje(caRandom, rJefe)
+    mientras(hayFlor)
+      BloquearEsquina(avRandom, caRandom)
+      Pos(avRandom, caRandom)
+      si(HayFlorEnLaEsquina)
+        tomarFlor
+        flores := flores + 1
+      sino
+        hayFlor := F
+      LiberarEsquina(avRandom, caRandom)
+      Pos(avIni, caIni)
+    EnviarMensaje(id, rJefe)
+    EnviarMensaje(flores, rJefe)
+  fin
+  robot jefe
+  variables
+    avRandom, caRandom, cantidadMax, idMax, auxCantidad, auxID: numero
+  comenzar
+    asignarID
+    Random(avRandom, 2, 10)
+    Random(caRandom, 2, 10)
+    EnviarMensaje(avRandom, rRecolector1)
+    EnviarMensaje(caRandom, rRecolector1)
+    EnviarMensaje(avRandom, rRecolector2)
+    EnviarMensaje(caRandom, rRecolector2)
+    EnviarMensaje(avRandom, rRecolector3)
+    EnviarMensaje(caRandom, rRecolector3)
+    EnviarMensaje(avRandom, rRecolector4)
+    EnviarMensaje(caRandom, rRecolector4)
+    repetir 4
+      RecibirMensaje(auxID, *)
+      RecibirMensaje(auxCantidad, *)
+      si(auxCantidad > cantidadMax)
+        cantidadMax := auxCantidad
+        idMax := auxID
+    Informar("El id que recolecto mas es ", idMax)
+  fin
+variables
+  rJefe: jefe
+  rRecolector1: recolector
+  rRecolector2: recolector
+  rRecolector3: recolector
+  rRecolector4: recolector
+comenzar
+  AsignarArea(rRecolector1, area)
+  AsignarArea(rRecolector2, area)
+  AsignarArea(rRecolector3, area)
+  AsignarArea(rRecolector4, area)
+  AsignarArea(rRecolector1, areaRecolector1)
+  AsignarArea(rRecolector2, areaRecolector2)
+  AsignarArea(rRecolector3, areaRecolector3)
+  AsignarArea(rRecolector4, areaRecolector4)
+  AsignarArea(rJefe, puestoJefe)
+  Iniciar(rJefe, 1,1)
+  Iniciar(rRecolector1, 2,1)
+  Iniciar(rRecolector2, 3,1)
+  Iniciar(rRecolector3, 4,1)
+  Iniciar(rRecolector4, 5,1)
+fin
