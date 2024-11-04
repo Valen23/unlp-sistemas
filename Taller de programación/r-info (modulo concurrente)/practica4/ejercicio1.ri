@@ -1,0 +1,92 @@
+programa ejercicio4
+areas
+  ciudad: AreaC (1,1,100,100)
+robots
+  robot cliente
+  variables
+    id, numeroRandom: numero
+    avenidaActual, calleActual: numero
+    permiso: boolean
+  comenzar
+    RecibirMensaje(id, servidor)
+    EnviarMensaje(id, servidor)
+    Random(numeroRandom, 1, 4)
+    EnviarMensaje(numeroRandom, servidor)
+    avenidaActual := PosAv
+    calleActual := PosCa
+    EnviarMensaje(avenidaActual, servidor)
+    EnviarMensaje(calleActual, servidor)
+    RecibirMensaje(permiso, servidor)
+    mientras(permiso)
+      Pos(avenidaActual, calleActual+1)
+      mientras(HayFlorEnLaEsquina)
+        tomarFlor
+      Pos(avenidaActual, calleActual)
+      repetir numeroRandom
+        si(PosAv = 100)
+          EnviarMensaje(0, servidor)
+        depositarFlor
+        mover
+  fin
+  robot servidor
+  variables
+    calleSolicitada, avenidaSolicitada: numero
+    idCliente, cantidadFloresRandom: numero
+  comenzar
+    {asignamos ids}
+    EnviarMensaje(1, cliente1)
+    EnviarMensaje(2, cliente2)
+    EnviarMensaje(3, cliente3)
+    {identifico que cliente es}
+    RecibirMensaje(idCliente, *)
+    si(idCliente = 1)
+      {solicito los datos dependiendo de que cliente sea}
+      RecibirMensaje(cantidadFloresRandom, cliente1)
+    sino
+      si(idCliente = 2)
+        RecibirMensaje(cantidadFloresRandom, cliente2)
+      sino
+        si(idCliente = 3)
+          RecibirMensaje(cantidadFloresRandom, cliente3)
+          
+    mientras(HayFlorEnLaBolsa)
+      si(idCliente = 1)
+        RecibirMensaje(avenidaSolicitada, cliente1)
+        RecibirMensaje(calleSolicitada, cliente1)
+      sino
+        si(idCliente = 2)
+          RecibirMensaje(avenidaSolicitada, cliente2)
+          RecibirMensaje(calleSolicitada, cliente2)
+        sino
+          si(idCliente = 3)
+            RecibirMensaje(avenidaSolicitada, cliente3)
+            RecibirMensaje(calleSolicitada, cliente3)
+      Pos(avenidaSolicitada, calleSolicitada+1)
+      repetir cantidadFloresRandom
+        si(HayFlorEnLaBolsa)
+          depositarFlor
+      Pos(100,100)
+      si(idCliente = 1)
+        EnviarMensaje(V, cliente1)
+      sino
+        si(idCliente = 2)
+          EnviarMensaje(V, cliente2)
+        sino
+          si(idCliente = 3)
+            EnviarMensaje(V, cliente3)
+  fin
+variables
+  servidor: servidor
+  cliente1: cliente
+  cliente2: cliente
+  cliente3: cliente
+comenzar
+  AsignarArea(servidor, ciudad)
+  AsignarArea(cliente1, ciudad)
+  AsignarArea(cliente2, ciudad)
+  AsignarArea(cliente3, ciudad)
+  Iniciar(servidor, 100,100)
+  Iniciar(cliente1, 1,1)
+  Iniciar(cliente2, 2,1)
+  Iniciar(cliente3, 3,1)
+fin
