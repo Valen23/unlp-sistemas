@@ -1,0 +1,136 @@
+programa ejercicio1
+procesos
+  proceso recolectarPapeles(ES papelesTotales: numero)
+  comenzar
+    mientras(HayPapelEnLaEsquina)
+      tomarPapel
+      papelesTotales := papelesTotales + 1
+  fin
+  proceso recolectarFlores(ES floresTotales: numero)
+  comenzar
+    mientras(HayFlorEnLaEsquina)
+      tomarFlor
+      floresTotales := floresTotales + 1
+  fin
+  proceso limpiarAvenida(E avenida: numero; ES floresTotales: numero)
+  comenzar
+    repetir 96
+      recolectarFlores(floresTotales)
+      mover
+    recolectarFlores(floresTotales)
+    BloquearEsquina(avenida, 98)
+    mover
+    recolectarFlores(floresTotales)
+    BloquearEsquina(avenida, 99)
+    mover
+    LiberarEsquina(avenida, 98)
+    recolectarFlores(floresTotales)
+    mover
+    LiberarEsquina(avenida, 99)
+    recolectarFlores(floresTotales)
+  fin
+  proceso limpiarCalle(E calle: numero; ES papelesTotales: numero)
+  comenzar
+    recolectarPapeles(papelesTotales)
+    BloquearEsquina(2, calle)
+    mover
+    recolectarPapeles(papelesTotales)
+    BloquearEsquina(3, calle)
+    mover
+    LiberarEsquina(2, calle)
+    recolectarPapeles(papelesTotales)
+    mover
+    LiberarEsquina(3, calle)
+    repetir 96
+      recolectarPapeles(papelesTotales)
+      mover
+  fin
+areas
+  tramoR1: AreaP (2,1,2,100)
+  tramoR2: AreaP (3,1,3,100)
+  tramoA1: AreaP (1,98,100,98)
+  tramoA2: AreaP (1,99,100,99)
+  areaFiscal: AreaP (1,1,1,1)
+robots
+  robot rojo1
+  variables
+    floresTotales, id: numero
+  comenzar
+    floresTotales := 0
+    RecibirMensaje(id, fiscalizador)
+    limpiarAvenida(2, floresTotales)
+    EnviarMensaje(id, fiscalizador)
+    EnviarMensaje(floresTotales, fiscalizador)
+  fin
+  robot rojo2
+  variables
+    floresTotales, id: numero
+  comenzar
+    floresTotales := 0
+    RecibirMensaje(id, fiscalizador)
+    limpiarAvenida(3, floresTotales)
+    EnviarMensaje(id, fiscalizador)
+    EnviarMensaje(floresTotales, fiscalizador)
+  fin
+  robot azul1
+  variables
+    papelesTotales, id: numero
+  comenzar
+    papelesTotales := 0
+    derecha
+    RecibirMensaje(id, fiscalizador)
+    limpiarCalle(98, papelesTotales)
+    EnviarMensaje(id, fiscalizador)
+    EnviarMensaje(papelesTotales, fiscalizador)
+  fin
+  robot azul2
+  variables
+    papelesTotales, id: numero
+  comenzar
+    papelesTotales := 0
+    derecha
+    RecibirMensaje(id, fiscalizador)
+    limpiarCalle(99, papelesTotales)
+    EnviarMensaje(id, fiscalizador)
+    EnviarMensaje(papelesTotales, fiscalizador)
+  fin
+  robot fiscalizador
+  variables
+    floresTotales, papelesTotales, aux, id: numero
+  comenzar
+    EnviarMensaje(1, r1)
+    EnviarMensaje(2, r2)
+    EnviarMensaje(3, a1)
+    EnviarMensaje(4, a2)
+    repetir 4
+      RecibirMensaje(id, *)
+      si(id = 1)|(id = 2)
+        RecibirMensaje(aux, *)
+        floresTotales := floresTotales + aux
+      sino
+        si(id = 3)|(id = 4)
+          RecibirMensaje(aux, *)
+          papelesTotales := papelesTotales + aux
+    si(floresTotales > papelesTotales)
+      Informar("el equipo ganador es el rojo", floresTotales)
+    sino
+      Informar("el equipo ganador es el azul", papelesTotales)
+  fin
+variables
+  r1: rojo1
+  r2: rojo2
+  a1: azul1
+  a2: azul2
+  fiscalizador: fiscalizador
+comenzar
+  AsignarArea(r1, tramoR1)
+  AsignarArea(r2, tramoR2)
+  AsignarArea(a1, tramoA1)
+  AsignarArea(a2, tramoA2)
+  AsignarArea(fiscalizador, areaFiscal)
+  Iniciar(fiscalizador, 1,1)
+  Iniciar(r1, 2,1)
+  Iniciar(r2, 3,1)
+  Iniciar(a1, 1,98)
+  Iniciar(a2, 1,99)
+fin

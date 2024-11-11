@@ -1,92 +1,101 @@
-programa ejercicio4
+programa ejercicio1
 areas
-  ciudad: AreaC (1,1,100,100)
+  areaServidor: AreaP (100,100,100,100)
+  areaC1: AreaPC (1,1,1,100)
+  areaC2: AreaPC (2,1,2,100)
+  areaC3: AreaPC (3,1,3,100)
 robots
-  robot cliente
-  variables
-    id, numeroRandom: numero
-    avenidaActual, calleActual: numero
-    permiso: boolean
-  comenzar
-    RecibirMensaje(id, servidor)
-    EnviarMensaje(id, servidor)
-    Random(numeroRandom, 1, 4)
-    EnviarMensaje(numeroRandom, servidor)
-    avenidaActual := PosAv
-    calleActual := PosCa
-    EnviarMensaje(avenidaActual, servidor)
-    EnviarMensaje(calleActual, servidor)
-    RecibirMensaje(permiso, servidor)
-    mientras(permiso)
-      Pos(avenidaActual, calleActual+1)
-      mientras(HayFlorEnLaEsquina)
-        tomarFlor
-      Pos(avenidaActual, calleActual)
-      repetir numeroRandom
-        si(PosAv = 100)
-          EnviarMensaje(0, servidor)
-        depositarFlor
-        mover
-  fin
   robot servidor
   variables
-    calleSolicitada, avenidaSolicitada: numero
-    idCliente, cantidadFloresRandom: numero
+    id, aleatorio, calleSiguiente, avenidaActual: numero
+    ok1, ok2, ok3: boolean
+    ack: boolean
   comenzar
-    {asignamos ids}
-    EnviarMensaje(1, cliente1)
-    EnviarMensaje(2, cliente2)
-    EnviarMensaje(3, cliente3)
-    {identifico que cliente es}
-    RecibirMensaje(idCliente, *)
-    si(idCliente = 1)
-      {solicito los datos dependiendo de que cliente sea}
-      RecibirMensaje(cantidadFloresRandom, cliente1)
-    sino
-      si(idCliente = 2)
-        RecibirMensaje(cantidadFloresRandom, cliente2)
+    ok1 := V
+    ok2 := V
+    ok3 := V
+    EnviarMensaje(1, c1)
+    EnviarMensaje(2, c2)
+    EnviarMensaje(3, c3)
+    mientras(ok1)|(ok2)|(ok3)
+      RecibirMensaje(id, *)
+      si(id = 1)
+        RecibirMensaje(aleatorio, c1)
       sino
-        si(idCliente = 3)
-          RecibirMensaje(cantidadFloresRandom, cliente3)
-          
-    mientras(HayFlorEnLaBolsa)
-      si(idCliente = 1)
-        RecibirMensaje(avenidaSolicitada, cliente1)
-        RecibirMensaje(calleSolicitada, cliente1)
-      sino
-        si(idCliente = 2)
-          RecibirMensaje(avenidaSolicitada, cliente2)
-          RecibirMensaje(calleSolicitada, cliente2)
+        si(id = 2)
+          RecibirMensaje(aleatorio, c2)
         sino
-          si(idCliente = 3)
-            RecibirMensaje(avenidaSolicitada, cliente3)
-            RecibirMensaje(calleSolicitada, cliente3)
-      Pos(avenidaSolicitada, calleSolicitada+1)
-      repetir cantidadFloresRandom
-        si(HayFlorEnLaBolsa)
+          RecibirMensaje(aleatorio, c3)
+      si(aleatorio <> 0)
+        si(id = 1)
+          RecibirMensaje(calleSiguiente, c1)
+          RecibirMensaje(avenidaActual, c1)
+        si(id = 2)
+          RecibirMensaje(calleSiguiente, c2)
+          RecibirMensaje(avenidaActual, c2)
+        si(id = 3)
+          RecibirMensaje(calleSiguiente, c3)
+          RecibirMensaje(avenidaActual, c3)
+        Pos(avenidaActual, calleSiguiente)
+        repetir aleatorio
           depositarFlor
-      Pos(100,100)
-      si(idCliente = 1)
-        EnviarMensaje(V, cliente1)
-      sino
-        si(idCliente = 2)
-          EnviarMensaje(V, cliente2)
+        Pos(100, 100)
+        si(id = 1)
+          EnviarMensaje(V, c1)
         sino
-          si(idCliente = 3)
-            EnviarMensaje(V, cliente3)
+          si(id = 2)
+            EnviarMensaje(V, c2)
+          sino
+            EnviarMensaje(V, c3)
+      sino
+        si(id = 1)
+          ok1 := F
+        sino
+          si(id = 2)
+            ok2 := F
+          sino
+            ok3 := F
+  fin
+  robot cliente
+  variables
+    id, aleatorio, calleSiguiente, avenidaActual, ok: numero
+    ack: boolean
+  comenzar
+    RecibirMensaje(id, rServidor)
+    Random(aleatorio, 1, 4)
+    mientras(PosCa < 100)
+      EnviarMensaje(id, rServidor)
+      EnviarMensaje(aleatorio, rServidor)
+      calleSiguiente := PosCa + 1
+      EnviarMensaje(calleSiguiente, rServidor)
+      avenidaActual := PosAv
+      EnviarMensaje(avenidaActual, rServidor)
+      RecibirMensaje(ack, rServidor)
+      Pos(avenidaActual, calleSiguiente)
+      mientras(HayFlorEnLaEsquina)
+        tomarFlor
+      Pos(avenidaActual, calleSiguiente - 1)
+      mientras(HayFlorEnLaBolsa)&(PosCa < 100)
+        depositarFlor
+        mover
+    EnviarMensaje(id, rServidor)
+    EnviarMensaje(0, rServidor)
   fin
 variables
-  servidor: servidor
-  cliente1: cliente
-  cliente2: cliente
-  cliente3: cliente
+  rServidor: servidor
+  c1: cliente
+  c2: cliente
+  c3: cliente
 comenzar
-  AsignarArea(servidor, ciudad)
-  AsignarArea(cliente1, ciudad)
-  AsignarArea(cliente2, ciudad)
-  AsignarArea(cliente3, ciudad)
-  Iniciar(servidor, 100,100)
-  Iniciar(cliente1, 1,1)
-  Iniciar(cliente2, 2,1)
-  Iniciar(cliente3, 3,1)
+  AsignarArea(rServidor, areaServidor)
+  AsignarArea(rServidor, areaC1)
+  AsignarArea(rServidor, areaC2)
+  AsignarArea(rServidor, areaC3)
+  AsignarArea(c1, areaC1)
+  AsignarArea(c2, areaC2)
+  AsignarArea(c3, areaC3)
+  Iniciar(rServidor, 100, 100)
+  Iniciar(c1, 1, 1)
+  Iniciar(c2, 2, 1)
+  Iniciar(c3, 3, 1)
 fin

@@ -1,0 +1,69 @@
+programa ejercicio3a
+areas
+  area1: AreaP (1,1,1,100)
+  area2: AreaP (2,1,2,100)
+  area3: AreaP (3,1,3,100)
+  areaCoordinador: AreaP(4,1,4,1)
+robots
+  robot robotLimpiador
+  variables
+    id: numero
+    orden: boolean
+  comenzar
+    RecibirMensaje(id, rCoordinador)
+    mientras(PosCa < 100)
+      EnviarMensaje(id, rCoordinador)
+      RecibirMensaje(orden, rCoordinador)
+      repetir 4
+        mientras(HayPapelEnLaEsquina)
+          tomarPapel
+        si(PosCa < 100)
+          mover
+      EnviarMensaje(V, rCoordinador) {aviso que termine la etapa}
+    EnviarMensaje(id, rCoordinador)
+    RecibirMensaje(orden, rCoordinador)
+    EnviarMensaje(F, rCoordinador)
+  fin
+  robot rCoordinador
+  variables
+    id: numero
+    fin1, fin2, fin3: boolean
+  comenzar
+    fin1 := V
+    fin2 := V
+    fin3 := V
+    EnviarMensaje(1, r1)
+    EnviarMensaje(2, r2)
+    EnviarMensaje(3, r3)
+    mientras(fin1)|(fin2)|(fin3)
+      RecibirMensaje(id, *)
+      si(id = 1)
+        EnviarMensaje(V, r1)
+      sino
+        si(id = 2)
+          EnviarMensaje(V, r2)
+        sino
+          EnviarMensaje(V, r3)
+      si(id = 1)
+        RecibirMensaje(fin1, r1)
+      sino
+        si(id = 2)
+          RecibirMensaje(fin2, r2)
+        sino
+          RecibirMensaje(fin3, r3)
+  fin
+variables
+  r1: robotLimpiador
+  r2: robotLimpiador
+  r3: robotLimpiador
+  rCoordinador: rCoordinador
+comenzar
+  AsignarArea(r1, area1)
+  AsignarArea(r2, area2)
+  AsignarArea(r3, area3)
+  AsignarArea(rCoordinador, areaCoordinador)
+  Iniciar(r1, 1,1)
+  Iniciar(r2, 2,1)
+  Iniciar(r3, 3,1)
+  Iniciar(rCoordinador, 4,1)
+fin

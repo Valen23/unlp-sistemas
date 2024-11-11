@@ -1,0 +1,85 @@
+programa ejercicio4
+procesos
+  proceso realizarTarea(E tareaID: numero)
+  comenzar
+    si(tareaID = 1)
+      mientras(HayFlorEnLaEsquina)
+        tomarFlor
+    sino
+      si(tareaID = 2)
+        mientras(HayPapelEnLaEsquina)
+          tomarPapel
+      sino
+        mientras(HayFlorEnLaBolsa)
+          depositarFlor
+        mientras(HayPapelEnLaBolsa)
+          depositarPapel
+  fin
+areas
+  puestoT1: AreaP (2,1,2,1)
+  puestoT2: AreaP (3,1,3,1)
+  puestoJefe: AreaP (1,1,1,1)
+  areaTareas: AreaPC (2,2,100,100)
+robots
+  robot trabajador
+  variables
+    id, tareaID, calleAleatoria, avenidaAleatoria: numero
+  comenzar
+    calleAleatoria := 0
+    avenidaAleatoria := 0
+    tareaID := 0
+    RecibirMensaje(id, rJ)
+    mientras(tareaID <> 4)
+      si(calleAleatoria <> 0)|(avenidaAleatoria <> 0)
+        LiberarEsquina(avenidaAleatoria, calleAleatoria)
+      RecibirMensaje(tareaID, rJ)
+      si(tareaID <> 4)
+        RecibirMensaje(calleAleatoria, rJ)
+        RecibirMensaje(avenidaAleatoria, rJ)
+        BloquearEsquina(avenidaAleatoria, calleAleatoria)
+        Pos(avenidaAleatoria, calleAleatoria)
+        realizarTarea(tareaID)
+        EnviarMensaje(V, rJ)
+  fin
+  robot jefe
+  variables
+    tareaID, trabajadorAleatorio, id, calleAleatoria, avenidaAleatoria: numero
+    tareaCompleta: boolean
+  comenzar
+    EnviarMensaje(1, rT1)
+    EnviarMensaje(2, rT2)
+    tareaCompleta := V
+    repetir 10
+      si(tareaCompleta)
+        tareaCompleta := F
+        Random(tareaID, 1, 3)
+        Random(trabajadorAleatorio, 1, 2)
+        Random(calleAleatoria, 2, 100)
+        Random(avenidaAleatoria, 2, 100)
+        si(trabajadorAleatorio = 1)
+          EnviarMensaje(tareaID, rT1)
+          EnviarMensaje(calleAleatoria, rT1)
+          EnviarMensaje(avenidaAleatoria, rT1)
+        sino
+          EnviarMensaje(tareaID, rT2)
+          EnviarMensaje(calleAleatoria, rT2)
+          EnviarMensaje(avenidaAleatoria, rT2)
+        RecibirMensaje(tareaCompleta, *)
+    Random(trabajadorAleatorio, 1, 2)
+    EnviarMensaje(4, rT1)
+    EnviarMensaje(4, rT2)
+  fin
+variables
+  rJ: jefe
+  rT1: trabajador
+  rT2: trabajador
+comenzar
+  AsignarArea(rJ, puestoJefe)
+  AsignarArea(rT1, areaTareas)
+  AsignarArea(rT1, puestoT1)
+  AsignarArea(rT2, areaTareas)
+  AsignarArea(rT2, puestoT2)
+  Iniciar(rJ, 1,1)
+  Iniciar(rT1, 2,1)
+  Iniciar(rT2, 3,1)
+fin

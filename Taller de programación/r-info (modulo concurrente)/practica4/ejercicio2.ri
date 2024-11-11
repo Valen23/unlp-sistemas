@@ -1,0 +1,121 @@
+programa ejercicio2
+procesos
+  proceso depositarPapeles(E avenida: numero; E calle: numero; ES papeles: numero)
+  comenzar
+    BloquearEsquina(50, 50)
+    Pos(50, 50)
+    repetir papeles
+      depositarPapel
+    papeles := 0
+    Pos(avenida, calle)
+    LiberarEsquina(50, 50)
+  fin
+  proceso recorrerAvenida(E numAv: numero; ES papeles: numero)
+  comenzar
+    Pos(numAv, 1)
+    repetir 99
+      mientras(HayPapelEnLaEsquina)
+        tomarPapel
+        papeles := papeles + 1
+        si(papeles >= 5)
+          depositarPapeles(PosAv, PosCa, papeles)
+      mover
+  fin
+areas
+  avenida5: AreaP (5,1,5,100)
+  avenida10: AreaP (10,1,10,100)
+  deposito: AreaPC (50,50,50,50)
+  areaConsumidor1: AreaP (11,1,11,1)
+  areaConsumidor2: AreaP (12,1,12,1)
+robots
+  robot productor1
+  variables
+    papeles: numero
+  comenzar
+    papeles := 0
+    recorrerAvenida(5, papeles)
+  fin
+  robot productor2
+  variables
+    papeles: numero
+  comenzar
+    papeles := 0
+    recorrerAvenida(10, papeles)
+  fin
+  robot consumidor1
+  variables
+    avenidaOrigen, calleOrigen, papelesRandom, intentos, papelesTomados: numero
+  comenzar
+    papelesTomados := 0
+    intentos := 8
+    avenidaOrigen := PosAv
+    calleOrigen := PosCa
+    Random(papelesRandom, 2, 5)
+    Informar(papelesRandom)
+    mientras(intentos <> 0)
+      BloquearEsquina(50,50)
+      Pos(50,50)
+      mientras(HayPapelEnLaEsquina)&(papelesTomados < papelesRandom)
+        tomarPapel
+        papelesTomados := papelesTomados + 1
+      si(papelesTomados <> papelesRandom) {si no agarre la cantidad objetivo}
+        repetir papelesTomados
+          depositarPapel
+        papelesTomados := 0
+        intentos := intentos - 1
+      sino
+        intentos := 8
+      Pos(avenidaOrigen, calleOrigen)
+      LiberarEsquina(50,50)
+      mientras(HayPapelEnLaBolsa)
+        depositarPapel
+      papelesTomados := 0
+  fin
+  robot consumidor2
+  variables
+    avenidaOrigen, calleOrigen, papelesRandom, intentos, papelesTomados: numero
+  comenzar
+    papelesTomados := 0
+    intentos := 8
+    avenidaOrigen := PosAv
+    calleOrigen := PosCa
+    Random(papelesRandom, 2, 5)
+    Informar(papelesRandom)
+    mientras(intentos <> 0)
+      BloquearEsquina(50,50)
+      Pos(50,50)
+      mientras(HayPapelEnLaEsquina)&(papelesTomados < papelesRandom)
+        tomarPapel
+        papelesTomados := papelesTomados + 1
+      si(papelesTomados <> papelesRandom) {si no agarre la cantidad objetivo}
+        repetir papelesTomados
+          depositarPapel
+        papelesTomados := 0
+        intentos := intentos - 1
+      sino
+        intentos := 8
+      Pos(avenidaOrigen, calleOrigen)
+      LiberarEsquina(50,50)
+      mientras(HayPapelEnLaBolsa)
+        depositarPapel
+      papelesTomados := 0
+  fin
+variables
+  rc1: consumidor1
+  rc2: consumidor2
+  rp1: productor1
+  rp2: productor2
+comenzar
+  AsignarArea(rc1, deposito)
+  AsignarArea(rc2, deposito)
+  AsignarArea(rc1, areaConsumidor1)
+  AsignarArea(rc2, areaConsumidor2)
+  AsignarArea(rp1, avenida5)
+  AsignarArea(rp1, deposito)
+  AsignarArea(rp2, avenida10)
+  AsignarArea(rp2, deposito)
+  Iniciar(rp1, 5,1)
+  Iniciar(rp2, 10,1)
+  Iniciar(rc1, 11,1)
+  Iniciar(rc2, 12,1)
+fin
