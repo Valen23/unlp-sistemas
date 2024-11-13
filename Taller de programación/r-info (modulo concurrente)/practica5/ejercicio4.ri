@@ -1,0 +1,106 @@
+programa ejercicio4
+areas
+  areaFlores: AreaPC (40,40,60,60)
+  areaF1: AreaP (1,1,1,1)
+  areaF2: AreaP (2,1,2,1)
+  areaF3: AreaP (3,1,3,1)
+  areaF: AreaP (4,1,4,1)
+  deposito: AreaPC (10,10,10,10)
+robots
+  robot florero
+  variables
+    id, avenida, calle, calleOrigen, avenidaOrigen: numero
+    ok: boolean
+  comenzar
+    ok := V
+    avenidaOrigen := PosAv
+    calleOrigen := PosCa
+    RecibirMensaje(id, fiscal)
+    mientras(ok)
+      RecibirMensaje(ok, fiscal)
+      si(ok)
+        RecibirMensaje(avenida, fiscal)
+        RecibirMensaje(calle, fiscal)
+        BloquearEsquina(avenida, calle)
+        Pos(avenida, calle)
+        mientras(HayFlorEnLaEsquina)
+          tomarFlor
+        Pos(avenidaOrigen, calleOrigen)
+        LiberarEsquina(avenida, calle)
+    BloquearEsquina(10,10)
+    Pos(10,10)
+    mientras(HayFlorEnLaBolsa)
+      depositarFlor
+    Pos(avenidaOrigen, calleOrigen)
+    LiberarEsquina(10,10)
+    EnviarMensaje(V, fiscal)
+  fin
+  robot fiscal
+  variables
+    intentos, calleRandom, avenidaRandom, calleOrigen, avenidaOrigen, id, idRandom, flores: numero
+    ok: boolean
+  comenzar
+    flores := 0
+    ok := F
+    EnviarMensaje(1, rF1)
+    EnviarMensaje(2, rF2)
+    EnviarMensaje(3, rF3)
+    calleOrigen := PosCa
+    avenidaOrigen := PosAv
+    intentos := 1
+    mientras(intentos <> 0)
+      Random(idRandom, 1, 3)
+      Random(avenidaRandom, 40, 60)
+      Random(calleRandom, 40, 60)
+      si(idRandom = 1)
+        EnviarMensaje(V, rF1)
+        EnviarMensaje(avenidaRandom, rF1)
+        EnviarMensaje(calleRandom, rF1)
+      sino
+        si(idRandom = 2)
+          EnviarMensaje(V, rF2)
+          EnviarMensaje(avenidaRandom, rF2)
+          EnviarMensaje(calleRandom, rF2)
+        sino
+          EnviarMensaje(V, rF3)
+          EnviarMensaje(avenidaRandom, rF3)
+          EnviarMensaje(calleRandom, rF3)
+      intentos := intentos - 1
+    EnviarMensaje(F, rF1)
+    EnviarMensaje(F, rF2)
+    EnviarMensaje(F, rF3)
+    RecibirMensaje(ok, rF1)
+    RecibirMensaje(ok, rF2)
+    RecibirMensaje(ok, rF3)
+    si(ok)
+      BloquearEsquina(10,10)
+      Pos(10,10)
+      mientras(HayFlorEnLaEsquina)
+        tomarFlor
+        flores := flores + 1
+      Pos(avenidaOrigen, calleOrigen)
+      LiberarEsquina(10,10)
+      Informar(flores)
+  fin
+variables
+  rF1: florero
+  rF2: florero
+  rF3: florero
+  fiscal: fiscal
+comenzar
+  AsignarArea(rF1, areaF1)
+  AsignarArea(rF2, areaF2)
+  AsignarArea(rF3, areaF3)
+  AsignarArea(rF1, areaFlores)
+  AsignarArea(rF2, areaFlores)
+  AsignarArea(rF3, areaFlores)
+  AsignarArea(rF1, deposito)
+  AsignarArea(rF2, deposito)
+  AsignarArea(rF3, deposito)
+  AsignarArea(fiscal, deposito)
+  AsignarArea(fiscal, areaF)
+  Iniciar(rF1, 1,1)
+  Iniciar(rF2, 2,1)
+  Iniciar(rF3, 3,1)
+  Iniciar(fiscal, 4,1)
+fin

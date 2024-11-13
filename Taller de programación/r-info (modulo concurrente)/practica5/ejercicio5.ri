@@ -1,0 +1,82 @@
+programa ejercicio5
+areas
+  areaServidor: AreaP (13,1,13,1)
+  areaC1: AreaP (10,1,10,1)
+  areaC2: AreaP (11,1,11,1)
+  areaC3: AreaP (12,1,12,1)
+  areaDeposito: AreaPC (100,1,100,1)
+robots
+  robot cliente
+  variables
+    id, intentos, cantidadRandom, avenidaOrigen, calleOrigen: numero
+    ok: boolean
+  comenzar
+    RecibirMensaje(id, servidor)
+    intentos := 1
+    avenidaOrigen := PosAv
+    calleOrigen := PosCa
+    mientras(intentos <> 0)
+      EnviarMensaje(id, servidor)
+      EnviarMensaje(V, servidor)
+      RecibirMensaje(cantidadRandom, servidor)
+      repetir cantidadRandom
+        BloquearEsquina(100,1)
+        Pos(100,1)
+        tomarPapel
+        Pos(avenidaOrigen, calleOrigen)
+        LiberarEsquina(100,1)
+        depositarPapel
+      intentos := intentos - 1
+    EnviarMensaje(id, servidor)
+    EnviarMensaje(F, servidor)
+  fin
+  robot servidor
+  variables
+    id, papelesRandom: numero
+    ok1, ok2, ok3: boolean
+  comenzar
+    ok1 := V
+    ok2 := V
+    ok3 := V
+    EnviarMensaje(1, rC1)
+    EnviarMensaje(2, rC2)
+    EnviarMensaje(3, rC3)
+    mientras(ok1)|(ok2)|(ok3)
+      Random(papelesRandom, 1, 5)
+      RecibirMensaje(id, *)
+      si(id = 1)
+        RecibirMensaje(ok1, rC1)
+        EnviarMensaje(papelesRandom, rC1)
+      sino
+        si(id = 2)
+          EnviarMensaje(papelesRandom, rC2)
+          RecibirMensaje(ok2, rC2)
+        sino
+          EnviarMensaje(papelesRandom, rC3)
+          RecibirMensaje(ok3, rC3)
+      BloquearEsquina(100,1)
+      Pos(100,1)
+      repetir papelesRandom
+        depositarPapel
+      Pos(13,1)
+      LiberarEsquina(100,1)
+  fin
+variables
+  servidor: servidor
+  rC1: cliente
+  rC2: cliente
+  rC3: cliente
+comenzar
+  AsignarArea(rC1, areaC1)
+  AsignarArea(rC1, areaDeposito)
+  AsignarArea(rC2, areaC2)
+  AsignarArea(rC2, areaDeposito)
+  AsignarArea(rC3, areaC3)
+  AsignarArea(rC3, areaDeposito)
+  AsignarArea(servidor, areaServidor)
+  AsignarArea(servidor, areaDeposito)
+  Iniciar(servidor, 13,1)
+  Iniciar(rC1, 10,1)
+  Iniciar(rC2, 11,1)
+  Iniciar(rC3, 12,1)
+fin

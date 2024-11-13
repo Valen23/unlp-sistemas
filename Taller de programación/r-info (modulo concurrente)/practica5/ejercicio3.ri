@@ -1,0 +1,101 @@
+programa ejercicio3
+areas
+  tramo1: AreaP (1,3,100,3)
+  tramo2: AreaP (1,4,100,4)
+  deposito: AreaPC (10,10,10,10)
+  areaCosechador: AreaP (1,5,1,5)
+robots
+  robot recolector1
+  variables
+    flores, esquinas, avenida, calle: numero
+  comenzar
+    derecha
+    flores := 0
+    esquinas := 0
+    mientras(PosAv < 100)
+      mientras(flores <> 10)&(esquinas <> 15)
+        mientras(HayFlorEnLaEsquina)
+          tomarFlor
+          flores := flores + 1
+        esquinas := esquinas + 1
+        si(PosAv < 100)
+          mover
+      avenida := PosAv
+      calle := PosCa
+      flores := 0
+      esquinas := 0
+      BloquearEsquina(10,10)
+      Pos(10,10)
+      mientras(HayFlorEnLaBolsa)
+        depositarFlor
+      Pos(avenida, calle)
+      LiberarEsquina(10,10)
+      EnviarMensaje(V, cosechador)
+      EnviarMensaje(V, cosechador)
+    EnviarMensaje(F, cosechador)
+  fin
+  robot recolector2
+  variables
+    flores, esquinas, avenida, calle: numero
+  comenzar
+    derecha
+    flores := 0
+    esquinas := 0
+    mientras(PosAv < 100)
+      mientras(flores <> 10)&(esquinas <> 15)
+        mientras(HayFlorEnLaEsquina)
+          tomarFlor
+          flores := flores + 1
+        esquinas := esquinas + 1
+        si(PosAv < 100)
+          mover
+      avenida := PosAv
+      calle := PosCa
+      flores := 0
+      esquinas := 0
+      BloquearEsquina(10,10)
+      Pos(10,10)
+      mientras(HayFlorEnLaBolsa)
+        depositarFlor
+      Pos(avenida, calle)
+      LiberarEsquina(10,10)
+      EnviarMensaje(V, cosechador)
+      EnviarMensaje(V, cosechador)
+    EnviarMensaje(F, cosechador)
+  fin
+  robot cosechador
+  variables
+    finalizar, ok: boolean
+    floresTotales: numero
+  comenzar
+    finalizar := V
+    ok := F
+    floresTotales := 0
+    mientras(finalizar)
+      RecibirMensaje(ok, *)
+      si(ok)
+        BloquearEsquina(10,10)
+        Pos(10,10)
+        mientras(HayFlorEnLaEsquina)
+          tomarFlor
+          floresTotales := floresTotales + 1
+        Pos(1,5)
+        LiberarEsquina(10,10)
+        ok := F
+      RecibirMensaje(finalizar, *)
+  fin
+variables
+  rR1: recolector1
+  rR2: recolector2
+  cosechador: cosechador
+comenzar
+  AsignarArea(rR1, tramo1)
+  AsignarArea(rR2, tramo2)
+  AsignarArea(rR1, deposito)
+  AsignarArea(rR2, deposito)
+  AsignarArea(cosechador, areaCosechador)
+  AsignarArea(cosechador, deposito)
+  Iniciar(rR1, 1,3)
+  Iniciar(rR2, 1,4)
+  Iniciar(cosechador, 1,5)
+fin

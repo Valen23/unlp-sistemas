@@ -1,0 +1,97 @@
+programa ejercicio2
+procesos
+  proceso depositarBolsa(E flores: numero; E papeles: numero)
+  comenzar
+    repetir flores
+      depositarFlor
+    repetir papeles
+      depositarPapel
+  fin
+  proceso limpiarEsquina(ES flores: numero; ES papeles: numero)
+  comenzar
+    mientras(HayFlorEnLaEsquina)
+      tomarFlor
+      flores := flores + 1
+    mientras(HayPapelEnLaEsquina)
+      tomarPapel
+      papeles := papeles + 1
+  fin
+areas
+  tramo1: AreaP (1,1,100,1)
+  tramo2: AreaP (1,2,100,2)
+  tramo3: AreaP (1,3,100,3)
+  areaFiscal: AreaP (1,4,1,4)
+  areaDeposito: AreaPC (50,50,50,50)
+robots
+  robot recolector
+  variables
+    ok: boolean
+    flores, papeles, avenida, calle: numero
+  comenzar
+    flores := 0
+    papeles := 0
+    ok := F
+    derecha
+    repetir 11
+      EnviarMensaje(V, fiscal)
+      RecibirMensaje(ok, fiscal)
+      si(ok)
+        ok := F
+        repetir 9
+          limpiarEsquina(flores, papeles)
+          mover
+      avenida := PosAv
+      calle := PosCa
+      BloquearEsquina(50,50)
+      Pos(50,50)
+      depositarBolsa(flores, papeles)
+      Pos(avenida, calle)
+      LiberarEsquina(50,50)
+      flores := 0
+      papeles := 0
+    EnviarMensaje(V, fiscal)
+  fin
+  robot fiscal
+  variables
+    ok1, ok2, ok3: boolean
+    floresTotales, papelesTotales: numero
+  comenzar
+    floresTotales := 0
+    papelesTotales := 0
+    ok1 := F
+    ok2 := F
+    ok3 := F
+    repetir 11
+      RecibirMensaje(ok1, rRecolector1)
+      RecibirMensaje(ok2, rRecolector2)
+      RecibirMensaje(ok3, rRecolector3)
+      si(ok1)&(ok2)&(ok3)
+        EnviarMensaje(V, rRecolector1)
+        EnviarMensaje(V, rRecolector2)
+        EnviarMensaje(V, rRecolector3)
+    RecibirMensaje(ok1, rRecolector1)
+    RecibirMensaje(ok2, rRecolector2)
+    RecibirMensaje(ok3, rRecolector3)
+    Pos(50,50)
+    limpiarEsquina(floresTotales, papelesTotales)
+    Informar("La cantidad de flores es", floresTotales)
+  fin
+variables
+  rRecolector1: recolector
+  rRecolector2: recolector
+  rRecolector3: recolector
+  fiscal: fiscal
+comenzar
+  AsignarArea(rRecolector1, areaDeposito)
+  AsignarArea(rRecolector2, areaDeposito)
+  AsignarArea(rRecolector3, areaDeposito)
+  AsignarArea(fiscal, areaDeposito)
+  AsignarArea(rRecolector1, tramo1)
+  AsignarArea(rRecolector2, tramo2)
+  AsignarArea(rRecolector3, tramo3)
+  AsignarArea(fiscal, areaFiscal)
+  Iniciar(rRecolector1, 1,1)
+  Iniciar(rRecolector2, 1,2)
+  Iniciar(rRecolector3, 1,3)
+  Iniciar(fiscal, 1,4)
+fin
