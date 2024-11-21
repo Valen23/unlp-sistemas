@@ -1,1 +1,1 @@
-D:\GitHub\unlp\Arquitectura de Computadoras\winmips\practica6\parte2ejercicio3.s
+D:\GitHub\unlp\Arquitectura de Computadoras\winmips\practica6\prueba.s

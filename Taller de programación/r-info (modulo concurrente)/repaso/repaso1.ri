@@ -1,0 +1,84 @@
+{Hay un robot escondedor y 3 buscadores. El robot escondedor deja una flor en una esquina}
+{random de el area entre 10,10 y 13,13. Cuando la deposita, los demas robots se dirigen}
+{a una esquina random elegida por ellos e intentan tomar la flor. Cuando uno la consigue, avisa}
+{al robot escondedor y este informa quien la encontro.}
+programa repaso1
+areas
+  areaEscondite: AreaPC (10,10,13,13)
+  areaE: AreaP (1,1,1,1)
+  areaB1: AreaP (2,2,2,2)
+  areaB2: AreaP (3,3,3,3)
+  areaB3: AreaP (4,4,4,4)
+robots
+  robot buscador
+  variables
+    id, avenidaRandom, calleRandom, avenidaOrigen, calleOrigen: numero
+    ok: boolean
+  comenzar
+    RecibirMensaje(id, escondedor)
+    avenidaOrigen := PosAv
+    calleOrigen := PosCa
+    ok := V
+    mientras(ok)
+      RecibirMensaje(ok, escondedor)
+      Random(calleRandom, 10, 13)
+      Random(avenidaRandom, 10, 13)
+      BloquearEsquina(avenidaRandom, calleRandom)
+      Pos(avenidaRandom, calleRandom)
+      si(HayFlorEnLaEsquina)
+        tomarFlor
+        EnviarMensaje(F, escondedor)
+      sino
+        EnviarMensaje(V, escondedor)
+        EnviarMensaje(id, escondedor)
+      Pos(avenidaOrigen, calleOrigen)
+      LiberarEsquina(avenidaRandom, calleRandom)
+    
+  fin
+  robot escondedor
+  variables
+    avenidaRandom, calleRandom, id: numero
+    ok, sigue: boolean
+  comenzar
+    ok := V
+    sigue := V
+    EnviarMensaje(1, rB1)
+    EnviarMensaje(2, rB2)
+    EnviarMensaje(3, rB3)
+    Random(avenidaRandom, 10, 13)
+    Random(calleRandom, 10, 13)
+    BloquearEsquina(avenidaRandom, calleRandom)
+    Pos(avenidaRandom, calleRandom)
+    depositarFlor
+    Pos(1,1)
+    LiberarEsquina(avenidaRandom, calleRandom)
+    mientras(ok)
+      EnviarMensaje(V, rB1)
+      EnviarMensaje(V, rB2)
+      EnviarMensaje(V, rB3)
+      RecibirMensaje(ok, *)
+    RecibirMensaje(id, *)
+    EnviarMensaje(F, rB1)
+    EnviarMensaje(F, rB2)
+    EnviarMensaje(F, rB3)
+    Informar("el ganador es", id)
+  fin
+variables
+  escondedor: escondedor
+  rB1: buscador
+  rB2: buscador
+  rB3: buscador
+comenzar
+  AsignarArea(escondedor, areaEscondite)
+  AsignarArea(escondedor, areaE)
+  AsignarArea(rB1, areaEscondite)
+  AsignarArea(rB2, areaEscondite)
+  AsignarArea(rB3, areaEscondite)
+  AsignarArea(rB1, areaB1)
+  AsignarArea(rB2, areaB2)
+  AsignarArea(rB3, areaB3)
+  Iniciar(escondedor, 1,1)
+  Iniciar(rB1, 2,2)
+  Iniciar(rB2, 3,3)
+  Iniciar(rB3, 4,4)
+fin
